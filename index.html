@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expanding Panels with Click</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .panel {
+            flex: 1;
+            overflow: hidden;
+            transition: flex 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        #panel1 {
+            background-color: #3498db;
+        }
+
+        #panel2 {
+            background-color: #e74c3c;
+        }
+
+        .panel:hover {
+            flex: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+<div id="panel1" class="panel" onclick="changeText('panel1', 'panel2')">Panel 1</div>
+<div id="panel2" class="panel" onclick="changeText('panel2', 'panel1')">Panel 2</div>
+
+<script>
+    function changeText(panelId1, panelId2) {
+    fetch('http://localhost:5000/get_string')
+        .then(response => response.json())
+        .then(data => {
+            const ques1 = data.ques1;
+            const ques2 = data.ques2;
+
+            const panel1 = document.getElementById(panelId1);
+            const panel2 = document.getElementById(panelId2);
+
+            panel1.innerHTML = ques1;
+            panel2.innerHTML = ques2;
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
+
+</body>
+</html>
